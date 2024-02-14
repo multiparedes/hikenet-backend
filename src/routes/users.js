@@ -5,7 +5,7 @@ const router = Router();
 const { faker } = require("@faker-js/faker");
 
 // Impor the sequelize table
-const Users = require("../model/users.model");
+const Users = require("../models/users.model");
 // Check if the table exists, create if not.
 Users.sync({});
 

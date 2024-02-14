@@ -25,10 +25,22 @@ User.init(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
+      validate: {
+        len: {
+          args: [4, 255],
+          msg: "min_len_4",
+        },
+      },
     },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isNull: {
+          msg: "firstName_cannot_be_null",
+        },
+      },
     },
     lastName: {
       type: DataTypes.STRING,
@@ -36,6 +48,11 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isEmail: {
+          msg: "invalid_email",
+        },
+      },
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
