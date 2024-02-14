@@ -1,13 +1,16 @@
 const { Router } = require("express");
 const router = Router();
 
+const bcrypt = require("bcrypt");
+require("dotenv").config();
+
 // DEVELOP, CREATE FAKE DATA
 const { faker } = require("@faker-js/faker");
 
 // Impor the sequelize table
 const Users = require("../models/users.model");
 // Check if the table exists, create if not.
-Users.sync({});
+Users.sync({ alter: true });
 
 function errorFunction(res) {
   return res.status(500).json({ message: "HELP! Something broke 🧯🔥" });
@@ -25,7 +28,7 @@ router
       return errorFunction(res);
     }
   })
-  .post(postUser);
+  .post(postFakeUser);
 
 async function getUser(req, res) {
   try {
@@ -38,10 +41,17 @@ async function getUser(req, res) {
   }
 }
 
-async function postUser(req, res) {
+async function postFakeUser(req, res) {
   try {
+    const password = faker.internet.password();
+    const hashedPassword = await bcrypt.hashSync(
+      password,
+      Number.parseInt(process.env.SALT_ROUNDS),
+    );
+
     const newUser = await Users.create({
       username: faker.internet.userName(),
+      password: hashedPassword,
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       email: faker.internet.email(),

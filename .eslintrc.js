@@ -4,7 +4,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: ["standard", "prettier"],
+  extends: ["eslint:recommended", "prettier"],
   overrides: [
     {
       env: {

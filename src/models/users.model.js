@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     dialect: "mysql",
     port: 3306,
-  },
+  }
 );
 
 class User extends Model {}
@@ -33,11 +33,15 @@ User.init(
         },
       },
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isNull: {
+        notNull: {
           msg: "firstName_cannot_be_null",
         },
       },
@@ -61,7 +65,7 @@ User.init(
   {
     sequelize,
     modelName: "User",
-  },
+  }
 );
 
 module.exports = User;
