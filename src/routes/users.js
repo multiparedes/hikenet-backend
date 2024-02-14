@@ -66,7 +66,7 @@ async function deleteUser(req, res) {
     res.json(
       deletedUser == 0
         ? { message: "User not found 😞" }
-        : { message: "User deleted successfully 😃" }
+        : { message: "User deleted successfully 😃" },
     );
   } catch (error) {
     console.log(error);
@@ -84,13 +84,13 @@ async function patchUser(req, res) {
         where: {
           id: req.params.id,
         },
-      }
+      },
     );
 
     res.json(
       updatedUser == 0
         ? { message: "User not found 😞" }
-        : { message: "User updated successfully 😃" }
+        : { message: "User updated successfully 😃" },
     );
   } catch (error) {
     console.log(error);
