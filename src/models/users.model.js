@@ -42,7 +42,7 @@ User.init(
       allowNull: false,
       validate: {
         notNull: {
-          msg: "firstName_cannot_be_null",
+          msg: "cannot_be_null",
         },
       },
     },
