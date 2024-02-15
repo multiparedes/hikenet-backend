@@ -34,9 +34,13 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid password ❌" });
     }
 
-    let token = generateToken({ user: user });
+    let token = generateToken(user);
 
-    return res.json({ message: "Login success ✔", token });
+    return res
+      .cookie("hikenet-token", token, {
+        httpOnly: true,
+      })
+      .json({ message: "Login success ✔", token });
   } catch (err) {
     console.error(err);
     return errorFunction(res);
@@ -63,13 +67,23 @@ router.post("/signup", async (req, res) => {
       isAdmin: isAdmin ?? false,
     });
 
-    let token = generateToken({ user: user });
+    let token = generateToken(user);
 
-    res.json({ user: newUser, token });
+    return res
+      .cookie("hikenet-token", token, {
+        httpOnly: true,
+      })
+      .json({ user: newUser, token });
   } catch (err) {
     console.error(err);
     return errorFunction(res);
   }
+});
+
+router.post("/logout", (req, res) => {
+  return res
+    .clearCookie("hikenet-token")
+    .json({ message: "User logout successfully ✔" });
 });
 
 module.exports = router;

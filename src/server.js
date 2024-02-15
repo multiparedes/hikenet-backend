@@ -3,6 +3,8 @@ const app = express();
 
 require("dotenv").config();
 
+var cookieParser = require("cookie-parser");
+
 const Users = require("./models/users.model");
 
 // Configuraciones
@@ -11,6 +13,7 @@ app.set("port", process.env.PORT || 8000);
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Is API up ?
 app.get("/", (req, res) => {
@@ -30,8 +33,8 @@ const authRoutes = require("./routes/auth");
 Users.sync({});
 
 // Usar rutas
-app.use("/users", authMiddleware, userRoutes);
 app.use("/auth", authRoutes);
+app.use("/users", authMiddleware, userRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), () => {

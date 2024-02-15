@@ -23,11 +23,7 @@ function generateToken(user) {
 function verifyToken(token) {
   let validtoken = false;
 
-  jwt.verify(token.split(" ")[1], process.env.AUTH_SECRET, (error, decoded) => {
-    if (error) {
-      console.error("Error decoding the JWT token");
-    }
-
+  jwt.verify(token.split(" ")[1], process.env.AUTH_SECRET, (decoded) => {
     validtoken = decoded;
   });
 
