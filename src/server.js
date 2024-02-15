@@ -3,6 +3,8 @@ const app = express();
 
 require("dotenv").config();
 
+const Users = require("./models/users.model");
+
 // Configuraciones
 app.set("port", process.env.PORT || 8000);
 
@@ -10,18 +12,26 @@ app.set("port", process.env.PORT || 8000);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// API is up ?
+// Is API up ?
 app.get("/", (req, res) => {
   res.json({
     message: "HikeNet API is up !",
   });
 });
 
-// Importar rutas
+// Import middlewares
+const { authMiddleware } = require("./middlewares/auth.middleware");
+
+// Import routes
 const userRoutes = require("./routes/users");
+const authRoutes = require("./routes/auth");
+
+// DB checks
+Users.sync({});
 
 // Usar rutas
-app.use("/users", userRoutes);
+app.use("/users", authMiddleware, userRoutes);
+app.use("/auth", authRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), () => {
