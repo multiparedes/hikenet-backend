@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 const Users = require("../models/users.model");

@@ -34,7 +34,8 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./src:/app/src
+      - ./:/app
+      - ./node_modules:/app/node_modules
     command:
-      sh -c "pnpm install && /usr/wait-for-it.sh mysqldb:$MYSQLDB_DOCKER_PORT --
-      pnpm run docker"
+      sh -c "npm i && /app/wait-for-it.sh mysqldb:$MYSQLDB_DOCKER_PORT --
+      /app/node_modules/.bin/nodemon --legacy-watch /app/src/index.js"
