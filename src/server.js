@@ -4,6 +4,7 @@ const app = express();
 require("dotenv").config();
 
 var cookieParser = require("cookie-parser");
+var cors = require("cors");
 
 const Users = require("./models/users.model");
 
@@ -14,6 +15,7 @@ app.set("port", process.env.PORT || 8000);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 // Is API up ?
 app.get("/", (req, res) => {
