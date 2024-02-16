@@ -67,7 +67,7 @@ router.post("/signup", async (req, res) => {
       isAdmin: isAdmin ?? false,
     });
 
-    let token = generateToken(user);
+    let token = generateToken(newUser);
 
     return res
       .cookie("hikenet-token", token, {
