@@ -11,7 +11,7 @@ RUN npm install -g pnpm && \
     pnpm install
 
 # Copy application code
-COPY . .
+COPY . /app
 
 EXPOSE 8000
 
