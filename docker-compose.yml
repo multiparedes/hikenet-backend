@@ -1,8 +1,9 @@
-version: "3.8"
+version: '3.8'
 
 services:
   mysqldb:
-    image: mysql:5.7
+    image: mysql:8.3.0
+    restart: unless-stopped
     env_file: ./.env
     environment:
       - MYSQL_USER=$MYSQLDB_USER
@@ -11,15 +12,12 @@ services:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-    logging:
-      driver: none
 
   app:
     depends_on:
       - mysqldb
-    links:
-      - mysqldb
     build: .
+    restart: unless-stopped
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
@@ -29,3 +27,5 @@ services:
       - DB_PASSWORD=$MYSQLDB_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
       - DB_PORT=$MYSQLDB_DOCKER_PORT
+    stdin_open: true
+    tty: true
