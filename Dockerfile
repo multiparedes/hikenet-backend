@@ -1,17 +1,23 @@
 FROM node:20.8.0
 
-RUN mkdir -p /app/node_modules && chown -R node:node /app
-
 WORKDIR /app
 
-COPY package*.json /app
+# Copy package.json and lock file
+COPY package.json .
+COPY pnpm-lock.yaml .
 
-USER node
+# Install dependencies with pnpm
+RUN npm install -g pnpm && \
+    pnpm install
 
-RUN npm install
-
-COPY --chown=node:node . .
+# Copy application code
+COPY . /app
 
 EXPOSE 8000
 
-CMD [ "npm", "run", "docker" ]
+# Copy wait-for-it.sh script
+COPY wait-for-it.sh /usr/wait-for-it.sh
+RUN chmod +x /usr/wait-for-it.sh
+
+# Start the application only after the database is ready
+CMD /usr/wait-for-it.sh mysqldb:$MYSQLDB_DOCKER_PORT -- pnpm start

@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 async function hashPassword(password) {
@@ -23,6 +23,7 @@ function generateToken(user) {
 function verifyToken(token) {
   let validtoken = false;
 
+  
   jwt.verify(token, process.env.AUTH_SECRET, (error, decoded) => {
     validtoken = decoded;
   });

@@ -1,10 +1,11 @@
+#https://www.bezkoder.com/docker-compose-nodejs-mysql/
+#https://faztweb.com/contenido/docker-compose-nodejs-y-mysql
+
 version: "3.8"
 
 services:
   mysqldb:
     image: mysql:8.3.0
-    container_name: mysql-db
-    restart: unless-stopped
     env_file: ./.env
     environment:
       - MYSQL_USER=$MYSQLDB_USER
@@ -17,11 +18,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    container_name: express-api
-    restart: unless-stopped
+    build: .
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
@@ -31,10 +28,3 @@ services:
       - DB_PASSWORD=$MYSQLDB_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
       - DB_PORT=$MYSQLDB_DOCKER_PORT
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./:/app
-    command:
-      sh -c "pnpm install && /usr/wait-for-it.sh mysqldb:$MYSQLDB_DOCKER_PORT --
-      pnpm run docker"
