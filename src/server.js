@@ -5,6 +5,7 @@ require("dotenv").config();
 
 var cookieParser = require("cookie-parser");
 var cors = require("cors");
+var morgan = require("morgan");
 
 // Configuraciones
 app.set("port", process.env.NODE_DOCKER_PORT || 8000);
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+app.use(morgan("common"));
 
 // Is API up ?
 app.get("/", (req, res) => {
