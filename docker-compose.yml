@@ -13,7 +13,8 @@ services:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-
+    networks:
+      - back-tier
   app:
     depends_on:
       - mysqldb
@@ -36,6 +37,11 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
-    command:
-      sh -c "npm i && /app/wait-for-it.sh mysqldb:$MYSQLDB_DOCKER_PORT --
+    command: sh -c "npm i && /app/wait-for-it.sh mysqldb:$MYSQLDB_DOCKER_PORT --
       /app/node_modules/.bin/nodemon --legacy-watch /app/src/index.js"
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    driver: bridge
