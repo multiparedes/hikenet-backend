@@ -54,9 +54,7 @@ User.init(
   {
     sequelize: db,
     modelName: "User",
-  }
+  },
 );
-
-User.sync({});
 
 module.exports = User;
