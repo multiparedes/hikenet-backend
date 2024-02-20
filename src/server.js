@@ -14,7 +14,10 @@ app.set("port", process.env.NODE_DOCKER_PORT || 8000);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Adjust this to your frontend URL
+  credentials: true,
+}));
 app.use(morgan("common"));
 
 // Is API up ?
