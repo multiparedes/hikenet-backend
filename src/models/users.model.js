@@ -57,4 +57,6 @@ User.init(
   },
 );
 
+User.sync({ force: true });
+
 module.exports = User;
