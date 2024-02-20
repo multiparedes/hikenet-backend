@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
     return res
       .cookie("hikenet-token", token, {
         httpOnly: true,
-        sameSite: "strict"
+        sameSite: "none"
       })
       .json({ message: "Login success ✔", token });
   } catch (err) {
@@ -73,7 +73,7 @@ router.post("/signup", async (req, res) => {
     return res
       .cookie("hikenet-token", token, {
         httpOnly: true,
-        sameSite: "strict"
+        sameSite: "none"
       })
       .json({ user: newUser, token });
   } catch (err) {
