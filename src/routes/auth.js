@@ -10,6 +10,7 @@ const {
   hashPassword,
   errorFunction,
   generateToken,
+  verifyToken
 } = require("../utils/basicUtils");
 
 router.post("/login", async (req, res) => {
@@ -37,12 +38,12 @@ router.post("/login", async (req, res) => {
     let token = generateToken(user);
 
     return res
-      .cookie("hikenet-token", token, {
+      .cookie("auth._token.cookie", token, {
         httpOnly: true,
         sameSite: "none",
         secure: true,
       })
-      .json({ message: "Login success ✔", token });
+      .json({ message: "Login success ✔", token, user });
   } catch (err) {
     console.error(err);
     return errorFunction(res);
@@ -72,7 +73,7 @@ router.post("/signup", async (req, res) => {
     let token = generateToken(newUser);
 
     return res
-      .cookie("hikenet-token", token, {
+      .cookie("auth._token.cookie", token, {
         httpOnly: true,
         sameSite: "none",
         secure: true,
@@ -86,7 +87,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/logout", (req, res) => {
   return res
-    .clearCookie("hikenet-token")
+    .clearCookie("auth._token.cookie")
     .json({ message: "User logout successfully ✔" });
 });
 
