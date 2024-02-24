@@ -91,4 +91,9 @@ router.post("/logout", (req, res) => {
     .json({ message: "User logout successfully ✔" });
 });
 
+
+router.get('/user',  (req, res) => {
+  return  verifyToken(req.cookies["auth._token.cookie"])
+})
+
 module.exports = router;
