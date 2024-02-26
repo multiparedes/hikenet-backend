@@ -2,12 +2,14 @@ const { verifyToken } = require("../utils/basicUtils");
 
 function authMiddleware(req, res, next) {
   try {
-    const headerToken = req.cookies["auth._token.cookie"];
+    const headerToken = req.get('Authorization');
+
+    console.log(headerToken)
 
     if (!headerToken) {
       return res
         .status(401)
-        .json({ message: "No autorization cookie provided" });
+        .json({ message: "No autorization header provided" });
     }
 
     const verified = verifyToken(headerToken);
@@ -17,14 +19,12 @@ function authMiddleware(req, res, next) {
       next();
     } else {
       res
-        .clearCookie("auth._token.cookie")
         .status(401)
         .json({ message: "Incorrect autorization cookie" });
     }
   } catch (error) {
     console.log("🚀 ~ authMiddleware ~ error:", error);
     res
-      .clearCookie("auth._token.cookie")
       .status(401)
       .json({ message: "Incorrect autorization cookie" });
   }

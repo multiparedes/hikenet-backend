@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 
+const jwt = require("jsonwebtoken");
+
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -92,8 +94,14 @@ router.post("/logout", (req, res) => {
 });
 
 
-router.get('/user',  (req, res) => {
-  return  verifyToken(req.cookies["auth._token.cookie"])
+router.get('/user',async (req, res) => {
+  let user
+  
+  jwt.verify(req.get("Authorization"), process.env.AUTH_SECRET, (error, decoded) => {
+    user = decoded;
+  });
+
+  return res.json(user)
 })
 
 module.exports = router;
