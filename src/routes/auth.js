@@ -1,8 +1,6 @@
 const { Router } = require("express");
 const router = Router();
 
-const jwt = require("jsonwebtoken");
-
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -12,7 +10,7 @@ const {
   hashPassword,
   errorFunction,
   generateToken,
-  verifyToken
+  verifyToken,
 } = require("../utils/basicUtils");
 
 router.post("/login", async (req, res) => {
@@ -74,13 +72,7 @@ router.post("/signup", async (req, res) => {
 
     let token = generateToken(newUser);
 
-    return res
-      .cookie("auth._token.cookie", token, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-      })
-      .json({ user: newUser, token });
+    return res.json({ user: newUser, token });
   } catch (err) {
     console.error(err);
     return errorFunction(res);
@@ -93,15 +85,14 @@ router.post("/logout", (req, res) => {
     .json({ message: "User logout successfully ✔" });
 });
 
+router.get("/user", async (req, res) => {
+  let user = verifyToken(req.get("Authorization"));
 
-router.get('/user',async (req, res) => {
-  let user
-  
-  jwt.verify(req.get("Authorization"), process.env.AUTH_SECRET, (error, decoded) => {
-    user = decoded;
-  });
+  if (!user) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
 
-  return res.json(user)
-})
+  return res.json(user);
+});
 
 module.exports = router;
