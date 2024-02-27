@@ -56,23 +56,34 @@ router.post("/signup", async (req, res) => {
       req.body;
 
     if (!password || !username || !firstName || !email) {
-      res.status(400).json({ message: "Missing required fields" });
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
     const hashedPassword = await hashPassword(password);
 
-    const newUser = await Users.create({
-      username,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      email,
-      isAdmin: isAdmin ?? false,
-    });
+    try {
+      const existingUser = await Users.findOne({ username });
 
-    let token = generateToken(newUser);
+      if (existingUser) {
+        return res.status(409).json({ message: "Username already exists" });
+      }
 
-    return res.json({ user: newUser, token });
+      const newUser = await Users.create({
+        username,
+        password: hashedPassword,
+        firstName,
+        lastName,
+        email,
+        isAdmin: isAdmin ?? false,
+      });
+
+      let token = generateToken(newUser);
+
+      return res.json({ user: newUser, token });
+    } catch (error) {
+      console.error("Error creating user:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
   } catch (err) {
     console.error(err);
     return errorFunction(res);
@@ -88,7 +99,7 @@ router.post("/logout", (req, res) => {
 router.get("/user", async (req, res) => {
   let user = verifyToken(req.get("Authorization"));
 
-  if (!user) {
+  if (!user || Date.now() > user.exp * 1000) {
     return res.status(401).json({ message: "Invalid token" });
   }
 

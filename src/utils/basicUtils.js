@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 async function hashPassword(password) {
   return await bcrypt.hashSync(
     password,
-    Number.parseInt(process.env.SALT_ROUNDS)
+    Number.parseInt(process.env.SALT_ROUNDS),
   );
 }
 
@@ -23,7 +23,6 @@ function generateToken(user) {
 function verifyToken(token) {
   let validtoken = false;
 
-  
   jwt.verify(token, process.env.AUTH_SECRET, (error, decoded) => {
     validtoken = decoded;
   });

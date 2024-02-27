@@ -16,7 +16,9 @@ router.get("/", getAllUsers);
 
 async function getAllUsers(req, res) {
   try {
-    const users = await Users.findAll();
+    const users = await Users.findAll({
+      attributes: { exclude: "password" },
+    });
 
     res.json(users);
   } catch (error) {
@@ -27,7 +29,10 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res) {
   try {
-    const user = await Users.findOne({ where: { id: req.params.id } });
+    const user = await Users.findOne({
+      where: { id: req.params.id },
+      attributes: { exclude: "password" },
+    });
 
     res.json(user ?? { message: "User not found 😞" });
   } catch (error) {
@@ -47,7 +52,7 @@ async function deleteUser(req, res) {
     res.json(
       deletedUser == 0
         ? { message: "User not found 😞" }
-        : { message: "User deleted successfully 😃" }
+        : { message: "User deleted successfully 😃" },
     );
   } catch (error) {
     console.log(error);
@@ -72,13 +77,13 @@ async function patchUser(req, res) {
         where: {
           id: req.params.id,
         },
-      }
+      },
     );
 
     res.json(
       updatedUser == 0
         ? { message: "User not found 😞" }
-        : { message: "User updated successfully 😃" }
+        : { message: "User updated successfully 😃" },
     );
   } catch (error) {
     console.log(error);
