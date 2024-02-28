@@ -62,9 +62,9 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await hashPassword(password);
 
     try {
-      const existingUser = await Users.findOne({ username });
+      const existingUser = await Users.findOne({ where: { username } });
 
-      if (existingUser) {
+      if (existingUser?.id) {
         return res.status(409).json({ message: "Username already exists" });
       }
 
