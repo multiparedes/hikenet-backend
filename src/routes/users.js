@@ -29,8 +29,10 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res) {
   try {
+  console.log(req.params)
+
     const user = await Users.findOne({
-      where: { id: req.params.id },
+      where: { username: req.params?.id },
       attributes: { exclude: "password" },
     });
 
@@ -45,7 +47,7 @@ async function deleteUser(req, res) {
   try {
     const deletedUser = await Users.destroy({
       where: {
-        id: req.params.id,
+        username: req.params?.id,
       },
     });
 
@@ -75,7 +77,7 @@ async function patchUser(req, res) {
       },
       {
         where: {
-          id: req.params.id,
+          username: req.params?.id,
         },
       },
     );
