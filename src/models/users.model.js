@@ -1,4 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
+const { Profile } = require("../models/profile.model");
 
 const db = require("../utils/database");
 
@@ -53,10 +54,12 @@ User.init(
   },
   {
     sequelize: db,
-    modelName: "User",
-  }
+    modelName: "user",
+  },
 );
 
-User.sync({});
+User.sync({ alter: true });
+
+User.Profile = User.hasOne(Profile);
 
 module.exports = User;
