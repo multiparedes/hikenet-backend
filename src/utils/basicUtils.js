@@ -1,3 +1,5 @@
+const _ = require("lodash");
+
 require("dotenv").config();
 
 const bcrypt = require("bcrypt");
@@ -30,4 +32,17 @@ function verifyToken(token) {
   return validtoken;
 }
 
-module.exports = { hashPassword, errorFunction, generateToken, verifyToken };
+function capitalizeString(string) {
+  return string
+    .split(" ")
+    .map((batch) => _.capitalize(batch))
+    .join(" ");
+}
+
+module.exports = {
+  hashPassword,
+  errorFunction,
+  generateToken,
+  verifyToken,
+  capitalizeString,
+};

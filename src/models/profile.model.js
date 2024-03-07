@@ -12,6 +12,11 @@ Profile.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
     description: {
       type: DataTypes.TEXT,
     },
@@ -21,8 +26,6 @@ Profile.init(
     modelName: "profile",
   },
 );
-
-Profile.User = Profile.belongsTo(User);
 
 Profile.sync({ alter: true });
 

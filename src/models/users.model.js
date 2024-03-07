@@ -1,7 +1,8 @@
 const { DataTypes, Model } = require("sequelize");
-const { Profile } = require("../models/profile.model");
 
 const db = require("../utils/database");
+const { capitalizeString } = require("../utils/basicUtils");
+const Profile = require("../models/profile.model");
 
 class User extends Model {}
 
@@ -39,6 +40,12 @@ User.init(
     lastName: {
       type: DataTypes.STRING,
     },
+    fullName: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return capitalizeString(`${this.firstName} ${this.lastName}`);
+      },
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -60,6 +67,6 @@ User.init(
 
 User.sync({ alter: true });
 
-User.Profile = User.hasOne(Profile);
+Profile.belongsTo(User);
 
 module.exports = User;

@@ -29,8 +29,6 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res) {
   try {
-  console.log(req.params)
-
     const user = await Users.findOne({
       where: { username: req.params?.id },
       attributes: { exclude: "password" },

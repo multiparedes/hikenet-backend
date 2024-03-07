@@ -64,6 +64,9 @@ devDependencies:
   eslint-plugin-promise:
     specifier: ^6.0.0
     version: 6.1.1(eslint@8.56.0)
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   nodemon:
     specifier: ^3.0.3
     version: 3.0.3
