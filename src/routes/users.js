@@ -7,18 +7,16 @@ require("dotenv").config();
 // const { faker } = require("@faker-js/faker");
 
 // Import the sequelize table
-const Users = require("../models/users.model");
+const { User } = require("../models");
 
 const { hashPassword, errorFunction } = require("../utils/basicUtils");
 
 //Define get
-router.get("/", getAllUsers);
+router.get("/", getAllUser);
 
-async function getAllUsers(req, res) {
+async function getAllUser(req, res) {
   try {
-    const users = await Users.findAll({
-      attributes: { exclude: "password" },
-    });
+    const users = await User.findAll();
 
     res.json(users);
   } catch (error) {
@@ -29,9 +27,9 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res) {
   try {
-    const user = await Users.findOne({
+    const user = await User.findOne({
       where: { username: req.params?.id },
-      attributes: { exclude: "password" },
+      include: "profile",
     });
 
     res.json(user ?? { message: "User not found 😞" });
@@ -43,7 +41,7 @@ async function getUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    const deletedUser = await Users.destroy({
+    const deletedUser = await User.destroy({
       where: {
         username: req.params?.id,
       },
@@ -68,7 +66,7 @@ async function patchUser(req, res) {
       password = await hashPassword(password);
     }
 
-    const updatedUser = await Users.update(
+    const updatedUser = await User.update(
       {
         ...req.body,
         password,
@@ -101,7 +99,7 @@ async function postFakeUser(req, res) {
     const password = faker.internet.password();
     const hashedPassword = await hashPassword(password);
 
-    const newUser = await Users.create({
+    const newUser = await User.create({
       username: faker.internet.userName(),
       password: hashedPassword,
       firstName: faker.person.firstName(),

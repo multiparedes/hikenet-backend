@@ -4,7 +4,7 @@ const router = Router();
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
-const Users = require("../models/users.model");
+const { User, Profile } = require("../models");
 
 const {
   hashPassword,
@@ -21,7 +21,7 @@ router.post("/login", async (req, res) => {
       return res.status(412).json({ message: "Missing username or password" });
     }
 
-    const user = await Users.findOne({
+    const user = await User.findOne({
       where: {
         username,
       },
@@ -62,13 +62,13 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await hashPassword(password);
 
     try {
-      const existingUser = await Users.findOne({ where: { username } });
+      const existingUser = await User.findOne({ where: { username } });
 
       if (existingUser?.id) {
         return res.status(409).json({ message: "Username already exists" });
       }
 
-      const newUser = await Users.create({
+      const newUser = await User.create({
         username,
         password: hashedPassword,
         firstName,
@@ -76,6 +76,8 @@ router.post("/signup", async (req, res) => {
         email,
         isAdmin: isAdmin ?? false,
       });
+
+      await Profile.create({ userId: newUser.id });
 
       let token = generateToken(newUser);
 

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "docker": "nodemon --legacy-watch src/server.js"
+    "docker": "nodemon --legacy-watch src/server.js",
+    "migrate": "pnpm dlx sequelize-cli db:migrate",
+    "unmigrate": "pnpm dlx sequelize-cli db:migrate:undo:all"
   },
   "keywords": [],
   "author": "Martí Paredes Salom",
