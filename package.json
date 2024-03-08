@@ -7,8 +7,8 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "docker": "nodemon --legacy-watch src/server.js",
-    "migrate": "pnpm dlx sequelize-cli db:migrate",
-    "unmigrate": "pnpm dlx sequelize-cli db:migrate:undo:all"
+    "migrate": "npx sequelize-cli db:migrate",
+    "unmigrate": "npx sequelize-cli db:migrate:undo:all"
   },
   "keywords": [],
   "author": "Martí Paredes Salom",
@@ -25,7 +25,8 @@
     "mysql2": "^3.9.1",
     "pg": "^8.11.3",
     "sequelize": "^6.37.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
@@ -37,7 +38,6 @@
     "eslint-plugin-promise": "^6.0.0",
     "lodash": "^4.17.21",
     "nodemon": "^3.0.3",
-    "prettier": "3.2.5",
-    "sequelize-cli": "^6.6.2"
+    "prettier": "3.2.5"
   }
 }

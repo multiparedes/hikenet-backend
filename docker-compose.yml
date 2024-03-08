@@ -37,7 +37,8 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
-    command: sh -c "/app/wait-for-it.sh postgresdb:$POSTGRES_DOCKER_PORT --
+    command:
+      sh -c "/app/wait-for-it.sh postgresdb:$POSTGRES_DOCKER_PORT -- npm run migrate &&
       /app/node_modules/.bin/nodemon --legacy-watch /app/src/index.js"
     networks:
       - back-tier
