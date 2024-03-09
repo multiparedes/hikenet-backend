@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8000
 
-RUN npm run migrate && npm run start
+CMD [ "npm", "run", "start" ]
