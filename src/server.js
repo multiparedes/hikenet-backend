@@ -46,5 +46,6 @@ app.use("/profile", authMiddleware, profileRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), async () => {
+  sequelize.sync({ alter: true });
   console.log(`Server listening on port ${app.get("port")} inside docker !`);
 });
