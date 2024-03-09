@@ -14,7 +14,7 @@ async function getProfile(req, res) {
     res.json({ message: "User not found 😞" });
   }
 
-  const profile = await Profile.findOne({ where: { userId: user.id } });
+  const profile = await Profile.findOne({ where: { userId: user?.id } });
 
   res.json(profile);
 }
