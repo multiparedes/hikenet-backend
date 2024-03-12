@@ -40,6 +40,22 @@ async function postProfile(req, res) {
   }
 }
 
-router.route("/:id").get(getProfile).post(postProfile);
+async function patchProfile(req, res) {
+  const user = await User.findOne({
+    where: { username: req.params?.id },
+  });
+
+  if (!user) {
+    res.json({ message: "User not found 😞" });
+  }
+
+  const profile = await Profile.findOne({ where: { userId: user?.id } });
+
+  const newProfile = await profile.update(req.body);
+
+  res.json(newProfile);
+}
+
+router.route("/:id").get(getProfile).post(postProfile).patch(patchProfile);
 
 module.exports = router;

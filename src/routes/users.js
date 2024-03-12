@@ -66,23 +66,20 @@ async function patchUser(req, res) {
       password = await hashPassword(password);
     }
 
-    const updatedUser = await User.update(
-      {
-        ...req.body,
-        password,
-      },
-      {
-        where: {
-          username: req.params?.id,
-        },
-      },
-    );
+    const user = await User.findOne({
+      where: { username: req.params?.id },
+    });
 
-    res.json(
-      updatedUser == 0
-        ? { message: "User not found 😞" }
-        : { message: "User updated successfully 😃" },
-    );
+    if (!user) {
+      res.json({ message: "User not found 😞" });
+    }
+
+    const updatedUser = await user.update({
+      ...req.body,
+      password,
+    });
+
+    res.json(updatedUser);
   } catch (error) {
     console.log(error);
     return errorFunction(res);
