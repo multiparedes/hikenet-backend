@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 
-const { sequelize } = require("./models");
-
 require("dotenv").config();
 
 var cookieParser = require("cookie-parser");
@@ -38,11 +36,13 @@ const { authMiddleware } = require("./middlewares/auth.middleware");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
+const friendsRoutes = require("./routes/follow");
 
 // Usar rutas
 app.use("/auth", authRoutes);
 app.use("/users", authMiddleware, userRoutes);
 app.use("/profile", authMiddleware, profileRoutes);
+app.use("/friends", authMiddleware, friendsRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), async () => {

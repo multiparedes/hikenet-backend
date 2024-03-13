@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { User } = require("../models");
+const { User, Profile } = require("../models");
 const { Op } = require("sequelize");
 
 const { hashPassword, errorFunction } = require("../utils/basicUtils");
@@ -28,7 +28,16 @@ async function getUser(req, res) {
   try {
     const user = await User.findOne({
       where: { username: req.params?.id },
-      include: "profile",
+      include: [
+        {
+          model: Profile,
+          as: "profile",
+        },
+        {
+          model: User,
+          as: "followers",
+        },
+      ],
     });
 
     res.json(user ?? { message: "User not found 😞" });
