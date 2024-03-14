@@ -37,12 +37,14 @@ const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const friendsRoutes = require("./routes/follow");
+const postsRoutes = require("./routes/posts");
 
 // Usar rutas
 app.use("/auth", authRoutes);
 app.use("/users", authMiddleware, userRoutes);
 app.use("/profile", authMiddleware, profileRoutes);
 app.use("/friends", authMiddleware, friendsRoutes);
+app.use("/posts", authMiddleware, postsRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), async () => {
