@@ -17,13 +17,71 @@ module.exports = (sequelize, DataTypes) => {
   }
   Post.init(
     {
-      title: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      location: DataTypes.STRING,
-      contents: DataTypes.STRING,
-      difficulty: DataTypes.INTEGER,
-      images: DataTypes.STRING,
-      itinerary: DataTypes.STRING,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Title cannot be null",
+          },
+          len: {
+            args: [1, 255],
+            msg: "Title must be between 1 and 255 characters",
+          },
+        },
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Description cannot be null",
+          },
+        },
+      },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Location cannot be null",
+          },
+        },
+      },
+      contents: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Contents cannot be null",
+          },
+        },
+      },
+      difficulty: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Difficulty cannot be null",
+          },
+          min: {
+            args: [1],
+            msg: "Difficulty must be at least 1",
+          },
+          max: {
+            args: [5],
+            msg: "Difficulty must be at most 5",
+          },
+        },
+      },
+      images: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      itinerary: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       userId: {
         type: DataTypes.UUID,
         references: {
@@ -40,5 +98,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Post",
     },
   );
+
   return Post;
 };

@@ -1,10 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 
-const { getAllPosts } = require("../controllers/posts");
+const { getAllPosts, createPost, updatePost } = require("../controllers/posts");
 
-router.get("/:user", getAllPosts);
+router.route("/:user").get(getAllPosts).post(createPost);
 
-//router.get("/:user/:id", unfollowUser);
+router.route("/:user/:id").patch(updatePost);
 
 module.exports = router;
