@@ -16,10 +16,10 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       location: {
-        type: Sequelize.STRING,
+        type: Sequelize.JSONB,
       },
       contents: {
-        type: Sequelize.STRING,
+        type: Sequelize.ARRAY(Sequelize.JSONB),
       },
       difficulty: {
         type: Sequelize.INTEGER,

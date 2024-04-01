@@ -1,12 +1,8 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: "userId" });
     }
@@ -15,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       return { ...this.get(), userId: undefined };
     }
   }
+
   Post.init(
     {
       title: {
@@ -40,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       location: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSONB,
         allowNull: false,
         validate: {
           notNull: {
@@ -49,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       contents: {
-        type: DataTypes.STRING,
+        type: DataTypes.ARRAY(DataTypes.JSONB),
         allowNull: false,
         validate: {
           notNull: {
@@ -69,8 +66,8 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Difficulty must be at least 1",
           },
           max: {
-            args: [5],
-            msg: "Difficulty must be at most 5",
+            args: [10],
+            msg: "Difficulty must be at most 10",
           },
         },
       },
