@@ -1,21 +1,9 @@
 const { User, Post } = require("../models");
 
 async function getAllPosts(req, res) {
-  const username = req.params?.user;
+  const posts = await Post.findAll();
 
-  const user = await User.findOne({
-    where: { username: username },
-    include: {
-      model: Post,
-      as: "posts",
-    },
-  });
-
-  if (user) {
-    res.json(user.posts);
-  } else {
-    res.status(404).json({ message: "User not found" });
-  }
+  res.json(posts);
 }
 
 async function createPost(req, res) {
@@ -54,6 +42,20 @@ async function createPost(req, res) {
     res.status(201).json(post);
   } catch (error) {
     res.status(400).json({ errors: error.message.split("\n") });
+  }
+}
+
+async function getPost(req, res) {
+  const id = req.params?.user;
+
+  const post = await Post.findByPk(id, {
+    include: User,
+  });
+
+  if (post) {
+    return res.json(post);
+  } else {
+    res.status(404).json({ message: "Post not found" });
   }
 }
 
@@ -101,4 +103,34 @@ async function updatePost(req, res) {
   }
 }
 
-module.exports = { getAllPosts, createPost, updatePost };
+async function getAllUserPosts(req, res) {
+  try {
+    const username = req.params.username;
+
+    // Assuming User and Post are Sequelize models
+    const user = await User.findOne({
+      where: { username },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const posts = await Post.findAll({
+      where: { userId: user.id },
+    });
+
+    res.json(posts);
+  } catch (error) {
+    console.error("Error retrieving user posts:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+module.exports = {
+  getAllPosts,
+  createPost,
+  updatePost,
+  getPost,
+  getAllUserPosts,
+};

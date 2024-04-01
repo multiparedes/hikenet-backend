@@ -1,9 +1,19 @@
 const { Router } = require("express");
 const router = Router();
 
-const { getAllPosts, createPost, updatePost } = require("../controllers/posts");
+const {
+  getAllPosts,
+  getPost,
+  createPost,
+  updatePost,
+  getAllUserPosts,
+} = require("../controllers/posts");
 
-router.route("/:user").get(getAllPosts).post(createPost);
+router.route("/").get(getAllPosts);
+
+router.route("/user/:username").get(getAllUserPosts);
+
+router.route("/:user").post(createPost).get(getPost);
 
 router.route("/:user/:id").patch(updatePost);
 
