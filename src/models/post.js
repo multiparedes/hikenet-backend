@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       images: {
-        type: DataTypes.STRING,
+        type: DataTypes.ARRAY(DataTypes.TEXT),
         allowNull: true,
       },
       itinerary: {

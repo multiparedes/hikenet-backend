@@ -8,16 +8,7 @@ async function getAllPosts(req, res) {
 
 async function createPost(req, res) {
   const username = req.params?.user;
-
-  const {
-    title,
-    description,
-    location,
-    contents,
-    difficulty,
-    images,
-    itinerary,
-  } = req.body;
+  console.log(req.body);
 
   try {
     const user = await User.findOne({
@@ -25,22 +16,18 @@ async function createPost(req, res) {
     });
 
     if (!user) {
-      res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
+    // Create the post
     const post = await Post.create({
-      title,
-      description,
-      location,
-      contents,
-      difficulty,
-      images,
-      itinerary,
+      ...req.body,
       userId: user.id,
     });
 
     res.status(201).json(post);
   } catch (error) {
+    console.error("Error creating post:", error);
     res.status(400).json({ errors: error.message.split("\n") });
   }
 }
