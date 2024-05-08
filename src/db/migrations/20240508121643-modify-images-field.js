@@ -3,7 +3,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Add a new column 'new_images' to store an array of text
-    await queryInterface.removeColumn("Posts", "new_images");
     await queryInterface.addColumn("Posts", "new_images", {
       type: Sequelize.ARRAY(Sequelize.TEXT),
       allowNull: true,
