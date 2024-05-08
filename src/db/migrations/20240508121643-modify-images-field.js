@@ -9,10 +9,14 @@ module.exports = {
       allowNull: true,
     });
 
-    // Migrate data from 'images' to 'new_images' as is
-    await queryInterface.sequelize.query(
-      'UPDATE "Posts" SET "new_images" = "images";',
-    );
+    try {
+      // Migrate data from 'images' to 'new_images' as is
+      await queryInterface.sequelize.query(
+        'UPDATE "Posts" SET "new_images" = ARRAY["images"];',
+      );
+    } catch (error) {
+      console.error("Error migrating data:", error);
+    }
 
     // Remove the old 'images' column
     await queryInterface.removeColumn("Posts", "images");

@@ -1,7 +1,5 @@
 const express = require("express");
 const app = express();
-const multer = require("multer");
-const upload = multer(); // This will create a multer instance for parsing multipart/form-data
 
 require("dotenv").config();
 
@@ -46,7 +44,7 @@ app.use("/auth", authRoutes);
 app.use("/users", authMiddleware, userRoutes);
 app.use("/profile", authMiddleware, profileRoutes);
 app.use("/friends", authMiddleware, friendsRoutes);
-app.use("/posts", authMiddleware, upload.any(), postsRoutes);
+app.use("/posts", authMiddleware, postsRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), async () => {
