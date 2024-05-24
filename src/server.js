@@ -38,13 +38,18 @@ const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const friendsRoutes = require("./routes/follow");
 const postsRoutes = require("./routes/posts");
+const resetRoutes = require("./routes/reset");
+const feedRoutes = require("./routes/feed");
 
 // Usar rutas
 app.use("/auth", authRoutes);
+app.use("/reset", resetRoutes);
+
 app.use("/users", authMiddleware, userRoutes);
 app.use("/profile", authMiddleware, profileRoutes);
 app.use("/friends", authMiddleware, friendsRoutes);
 app.use("/posts", authMiddleware, postsRoutes);
+app.use("/feed", authMiddleware, feedRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), async () => {
