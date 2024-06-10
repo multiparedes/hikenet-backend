@@ -61,14 +61,6 @@ async function updatePost(req, res) {
   } = req.body;
 
   try {
-    const user = await User.findOne({
-      where: { username: username },
-    });
-
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
-    }
-
     const post = await Post.findByPk(postId);
 
     if (!post) {

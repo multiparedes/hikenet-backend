@@ -15,6 +15,6 @@ router.route("/user/:username").get(getAllUserPosts);
 
 router.route("/:user").post(createPost).get(getPost);
 
-router.route("/:user/:id").patch(updatePost);
+router.route("/:id").patch(updatePost);
 
 module.exports = router;
