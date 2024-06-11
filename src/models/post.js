@@ -3,8 +3,10 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
-    static associate(models) {
-      this.belongsTo(models.User, { foreignKey: "userId" });
+    static associate({ User, Comment }) {
+      this.belongsTo(User, { foreignKey: "userId" });
+
+      this.hasMany(Comment, { foreignKey: "postId" });
     }
 
     toJSON() {

@@ -1,4 +1,4 @@
-const { User, Post } = require("../models");
+const { User, Post, Comment } = require("../models");
 const { Op } = require("sequelize");
 
 async function getAllPosts(req, res) {
@@ -37,7 +37,7 @@ async function getPost(req, res) {
   const id = req.params?.user;
 
   const post = await Post.findByPk(id, {
-    include: User,
+    include: [User, Comment],
   });
 
   if (post) {

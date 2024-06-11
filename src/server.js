@@ -40,6 +40,7 @@ const friendsRoutes = require("./routes/follow");
 const postsRoutes = require("./routes/posts");
 const resetRoutes = require("./routes/reset");
 const feedRoutes = require("./routes/feed");
+const commentsRoutes = require("./routes/comments");
 
 // Usar rutas
 app.use("/auth", authRoutes);
@@ -50,6 +51,7 @@ app.use("/profile", authMiddleware, profileRoutes);
 app.use("/friends", authMiddleware, friendsRoutes);
 app.use("/posts", authMiddleware, postsRoutes);
 app.use("/feed", authMiddleware, feedRoutes);
+app.use("/comments", authMiddleware, commentsRoutes);
 
 // Iniciando el servidor
 app.listen(app.get("port"), async () => {
