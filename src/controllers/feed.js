@@ -1,4 +1,4 @@
-const { User, Post, Comment } = require("../models");
+const { User, Post, Comment, Like } = require("../models");
 
 const { errorFunction } = require("../utils/basicUtils");
 
@@ -21,7 +21,7 @@ async function getFeed(req, res) {
 
     const posts = await Post.findAndCountAll({
       where: { userId: followingsIds },
-      include: [User, Comment],
+      include: [User, Comment, Like],
       limit,
       offset,
     });
