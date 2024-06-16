@@ -29,11 +29,12 @@ async function getFeed(req, res) {
     const nextPage = page + 1;
     const next = `/feed/${req.params?.id}?limit=${limit}&page=${nextPage}`;
 
+    console.log(posts.rows.length);
     console.log(limit);
 
     res.json({
       total: posts.count,
-      next: posts.rows.length <= limit ? null : next,
+      next: limit <= posts.rows.length ? next : null,
       results: posts.rows,
     });
   } catch (error) {

@@ -98,6 +98,7 @@ async function getAllUserPosts(req, res) {
 
     const posts = await Post.findAll({
       where: { userId: user.id },
+      include: [Like],
     });
 
     res.json(posts);
