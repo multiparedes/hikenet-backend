@@ -22,6 +22,7 @@ async function getFeed(req, res) {
     const posts = await Post.findAndCountAll({
       where: { userId: followingsIds },
       include: [User, Comment, Like],
+      order: [["createdAt", "DESC"]],
       limit,
       offset,
     });
